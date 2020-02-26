@@ -1,0 +1,37 @@
+{% extends "parent_layout.html" %}
+{% load i18n %} 
+{% load static %}
+
+{% block head %}
+{% if LANGUAGE_CODE == "ar" %}
+<!-- RTL Latest compiled and minified CSS -->
+<link 
+rel="stylesheet"
+href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css"
+integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
+crossorigin="anonymous">
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if success_message %}<div class="alert alert-success mt-5" role="alert">{{ success_message }}</div>{% endif %}
+
+<form action="{% url 'eval:evaluation' child.id %}" method="post">
+{% csrf_token %}
+<div class="form mt-5">
+    <div class="form-group">
+        <label for="criteria">{% trans 'Select evaluation criteria' %}</label>
+        <select class="form-control" id="criteria" name="criteria" required>
+        <option disabled selected value> {% trans '-- select an option --' %} </option>
+        {% for criteria in criterias %}
+        <option value="{{ criteria.id }}">{% if LANGUAGE_CODE == "en" %} {{ criteria.name }} {% else %} {{ criteria.arabic_name}} {% endif %}</option>
+        {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
+    </form>
+</div>
+{% endblock %}

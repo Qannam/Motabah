@@ -1,0 +1,46 @@
+{% extends "parent_layout.html" %}
+{% load i18n %} 
+{% load static %}
+
+{% block head %}
+{% if LANGUAGE_CODE == "ar" %} {{ child.first_name }}
+<!-- RTL Latest compiled and minified CSS -->
+<link 
+rel="stylesheet"
+href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css"
+integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
+crossorigin="anonymous">
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+{% if childs %}
+<table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{% trans 'Name' %}</th>
+        <th scope="col">{% trans 'Score' %}</th>
+        <th scope="col">{% trans 'evaluat' %}</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for child in childs %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="{% url 'eval:detail_parent' child.id %}">{% if LANGUAGE_CODE == "en" %} {{ child.first_name }} {% else %} {{ child.arabic_name }} {% endif %}</a></td>
+        <td>{{ child.score}}</td>
+        <td><a href="{% url 'eval:evaluation' child.id %}"><img src="{% static 'imgs/evaluation_icon_32.png' %}"></img></a></td>
+    </tr>
+  {% endfor %}
+    </thead>
+<tbody>
+  {% else %}
+    <div class="ul">"empty"</div>
+  
+  {% endif %}
+
+
+{% endblock %}

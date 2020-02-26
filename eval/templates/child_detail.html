@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load i18n %} 
+{% load static %}
+
+{% block head %}
+{% if LANGUAGE_CODE == "ar" %} {{ child.first_name }}
+<!-- RTL Latest compiled and minified CSS -->
+<link 
+rel="stylesheet"
+href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css"
+integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
+crossorigin="anonymous">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if evaluations %}
+<table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Criteria</th>
+        <th scope="col">Score</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for evaluation in evaluations %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{% if LANGUAGE_CODE == "en" %} {{ evaluation.criteria}} {% else %} {{ evaluation.criteria.arabic_name}} {% endif %}</td>
+        <td>{{ evaluation.score}}</td>
+        <td>{{ evaluation.created_at }}</td>
+    </tr>
+  {% endfor %}
+    </thead>
+<tbody>
+  {% else %}
+    <div class="ul">{% trans 'Empty' %}</div>
+  
+  {% endif %}
+
+
+{% endblock %}
