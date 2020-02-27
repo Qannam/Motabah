@@ -15,7 +15,6 @@ def index(request):
     template = loader.get_template('index.html')
     context = {
         'childs' : childs,
-        'redirect_to' : request.path,
     }
     return HttpResponse(template.render(context, request))
 
@@ -52,7 +51,6 @@ def evaluation(request , child_id, message=''):
             'child' : currentChild,
             'criterias' : criterias,
             'success_message' : message,
-            'redirect_to' : request.path,
         }
         
         return HttpResponse(template.render(context, request))
@@ -64,14 +62,12 @@ def childDetails(request, child_id, message=''):
     evaluations = Evaluation.objects.all().filter(child=child_id)
     if 'UGFyZW50IFBhZ2UgKE9ubHkgUGFyZW50KQ==' in request.path:
         template = loader.get_template('parent_child_detail.html')
-        print ("Good")
     else:
         template = loader.get_template('child_detail.html')
     context = {
         'child' : child,
         'evaluations' : evaluations,
         'success_message' : message,
-        'redirect_to' : request.path,
     }
     return HttpResponse(template.render(context, request))
 
@@ -81,7 +77,6 @@ def parentIndex(request):
     template = loader.get_template('parent_index.html')
     context = {
         'childs' : childs,
-        'redirect_to' : request.path,
     }
     return HttpResponse(template.render(context, request))
 
@@ -111,7 +106,6 @@ def setLanguage(request):
     }
     user_language = request.POST['language']
     translation.activate(user_language)
-    print (request.POST['next'])
     response = HttpResponseRedirect(request.POST['next'])
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user_language)
     return response

@@ -46,7 +46,7 @@
           </li>
           <li class="nav-item ml-5">
             <form action="{% url 'eval:set_language' %}" method="post">{% csrf_token %}
-              <input name="next" type="hidden" value="{{ redirect_to }}">
+              <input name="next" type="hidden" value="{{ request.path }}">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-secondary {% if LANGUAGE_CODE == "en" %} active  {% endif %}" >
                     <input type="radio" name="language" id="option1" autocomplete="off" onchange="this.form.submit()" value="en" {% if LANGUAGE_CODE == "en" %} checked  {% endif %}> English
